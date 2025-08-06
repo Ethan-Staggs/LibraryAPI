@@ -1,4 +1,4 @@
-#  LibraryAPI
+#  LibraryAPI - *Work in Progress*
 
 A RESTful API built with Spring Boot for practice and managing library-related data. This project follows clean architecture principles and uses PostgreSQL for persistent storage.
 
