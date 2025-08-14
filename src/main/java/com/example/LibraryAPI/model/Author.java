@@ -1,5 +1,6 @@
 package com.example.LibraryAPI.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -13,19 +14,20 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column(name = "author_id")
-    private long id;
+    private int id;
 
     @Column(name = "name")
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "author")
     private List<Book> books = new ArrayList<>();
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
