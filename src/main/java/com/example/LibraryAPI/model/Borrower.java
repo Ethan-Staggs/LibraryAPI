@@ -12,7 +12,7 @@ public class Borrower {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column(name = "borrower_id")
-    private long id;
+    private int id;
 
     @Column(name = "name")
     private String name;
@@ -23,11 +23,11 @@ public class Borrower {
     @OneToMany(mappedBy = "borrower")
     private List<Loan> loans = new ArrayList<>();
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -53,5 +53,14 @@ public class Borrower {
 
     public void setLoans(List<Loan> loans) {
         this.loans = loans;
+    }
+
+    public void addLoan(Loan loan) {
+        loans.add(loan);
+        loan.setBorrower(this);
+    }
+    public void removeLoan(Loan loan) {
+        loans.remove(loan);
+        loan.setBorrower(null);
     }
 }
