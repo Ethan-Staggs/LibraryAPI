@@ -1,11 +1,66 @@
 package com.example.LibraryAPI.controller;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.LibraryAPI.model.Book;
+import com.example.LibraryAPI.model.Borrower;
+import com.example.LibraryAPI.service.BorrowerService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/borrower")
 public class BorrowerController {
+
+    private final BorrowerService borrowerService;
+
+    public BorrowerController(BorrowerService borrowerService) {
+        this.borrowerService = borrowerService;
+    }
+
+    @GetMapping("/allBooks")
+    public List<Borrower> allBorrowers() {
+        return borrowerService.getAllBorrowers();
+    }
+
+    @GetMapping("/byId/{id}")
+    public Borrower getBorrowerById(@PathVariable int id) {
+        return borrowerService.getBorrowerById(id);
+    }
+
+    @PostMapping("/addBorrower")
+    public ResponseEntity<Borrower> addBorrower(@RequestBody Borrower borrower) {
+        Borrower newBorrower = borrowerService.addBorrower(borrower);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(newBorrower);
+    }
+
+    @PutMapping
+    public ResponseEntity<Borrower> updateBorrower(@RequestBody Borrower borrower) {
+        Borrower updatedBorrower = borrowerService.updateBorrower(borrower);
+
+        return ResponseEntity.status(HttpStatus.OK).body(updatedBorrower);
+    }
+
+    @DeleteMapping("deleteBorrower/{id}")
+    public void deleteBorrower(@PathVariable int id) {
+        borrowerService.deleteBorrower(id);
+    }
+
+    @PostMapping("/borrow/{borrowerId}/book/{bookId}")
+    public ResponseEntity<String> borrowBook(@PathVariable int borrowerId, @PathVariable int bookId) {
+        borrowerService.borrowBook(borrowerId, bookId);
+
+        return ResponseEntity.ok("Book borrowed successfully");
+    }
+
+    @PostMapping("return/borrower/{borrowerId}/loan/{loanId}/book/{bookId}")
+    public ResponseEntity<String> returnBook(@PathVariable int borrowerId, @PathVariable int loanId, @PathVariable int bookId) {
+        borrowerService.returnBook(borrowerId, loanId, bookId);
+
+        return ResponseEntity.ok("Book returned successfully");
+    }
 }
