@@ -13,7 +13,7 @@ public class Loan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column(name = "id")
-    private long id;
+    private int id;
 
     @Column(name = "loan_date")
     private LocalDate loanDate;
@@ -32,11 +32,11 @@ public class Loan {
     @JoinColumn(name = "borrower_id", nullable = false)
     private Borrower borrower;
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -70,5 +70,13 @@ public class Loan {
 
     public void setBook(Book book) {
         this.book = book;
+    }
+
+    public Borrower getBorrower() {
+        return borrower;
+    }
+
+    public void setBorrower(Borrower borrower) {
+        this.borrower = borrower;
     }
 }
