@@ -10,7 +10,7 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column(name = "book_id")
-    private Long id;
+    private int id;
 
     @Column(name = "title")
     private String title;
@@ -28,11 +28,11 @@ public class Book {
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -76,4 +76,6 @@ public class Book {
     public void setAuthor(Author author) {
         this.author = author;
     }
+
+
 }
