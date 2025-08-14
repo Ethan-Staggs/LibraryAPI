@@ -9,7 +9,7 @@ import java.util.List;
 
 public class BorrowerDto {
     @NotBlank
-    private long id;
+    private int id;
 
     @NotBlank
     private String name;
@@ -20,11 +20,11 @@ public class BorrowerDto {
     @NotBlank
     private List<Loan> loans = new ArrayList<>();
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
