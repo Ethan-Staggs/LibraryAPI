@@ -41,17 +41,17 @@ public class BorrowerService {
                 .orElseThrow(() -> new EntityNotFoundException("Borrower not found with id: " + id));
     }
 
-    public Borrower addBorrower(BorrowerDto dto) {
+    public Borrower addBorrower(Borrower borrower) {
 
-        Borrower borrower = new Borrower();
-        borrower.setName(dto.getName());
-        borrower.setEmail(dto.getEmail());
-        borrower.setLoans(new ArrayList<>());
+        Borrower newBorrower = new Borrower();
+        newBorrower.setName(borrower.getName());
+        newBorrower.setEmail(borrower.getEmail());
+        newBorrower.setLoans(new ArrayList<>());
 
-        return borrowerRepository.save(borrower);
+        return borrowerRepository.save(newBorrower);
     }
 
-    public Borrower updateBorrower(BorrowerDto borrower) {
+    public Borrower updateBorrower(Borrower borrower) {
         Borrower updatedBorrower = getBorrowerById(borrower.getId()); 
 
         updatedBorrower.setName(borrower.getName());
