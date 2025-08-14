@@ -20,7 +20,7 @@ public class AuthorService {
         this.bookRepository = bookRepository;
     }
 
-    public Author getAuthorById(long id) {
+    public Author getAuthorById(int id) {
         return authorRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Author not found with id: " + id));
     }
@@ -29,12 +29,11 @@ public class AuthorService {
         return authorRepository.findAll();
     }
 
-    public Author addAuthor(AuthorDto dto) {
-        Author author = new Author();
+    public Author addAuthor(Author author) {
+        Author newAuthor = new Author();
+        newAuthor.setName(author.getName());
 
-        author.setName(dto.getName());
-
-        return authorRepository.save(author);
+        return authorRepository.save(newAuthor);
     }
 
     public Author updateAuthor(Author author) {
@@ -44,7 +43,7 @@ public class AuthorService {
         return authorRepository.save(a);
     }
 
-    public void deleteAuthor(long id) {
+    public void deleteAuthor(int id) {
         if (!authorRepository.existsById(id)) {
             throw new EntityNotFoundException("Author not found");
         }
