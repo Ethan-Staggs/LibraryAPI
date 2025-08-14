@@ -19,11 +19,11 @@ public class BookDto {
     private int availableCopies;
 
     @NotNull(message = "Author ID is required")
-    private Long authorId;
+    private int authorId;
 
     public BookDto() {}
 
-    public BookDto(String title, String isbn, int totalCopies, int availableCopies, Long authorId) {
+    public BookDto(String title, String isbn, int totalCopies, int availableCopies, int authorId) {
         this.title = title;
         this.isbn = isbn;
         this.totalCopies = totalCopies;
@@ -63,11 +63,11 @@ public class BookDto {
         this.availableCopies = availableCopies;
     }
 
-    public Long getAuthorId() {
+    public int getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(Long authorId) {
+    public void setAuthorId(int authorId) {
         this.authorId = authorId;
     }
 }
