@@ -1,6 +1,5 @@
 package com.example.LibraryAPI.service;
 
-import com.example.LibraryAPI.dto.AuthorDto;
 import com.example.LibraryAPI.model.Author;
 import com.example.LibraryAPI.repository.AuthorRepository;
 import com.example.LibraryAPI.repository.BookRepository;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class AuthorService {
+public class  AuthorService {
 
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
