@@ -21,7 +21,7 @@ public class BorrowerController {
         this.borrowerService = borrowerService;
     }
 
-    @GetMapping("/allBooks")
+    @GetMapping("/allBorrowers")
     public List<Borrower> allBorrowers() {
         return borrowerService.getAllBorrowers();
     }
@@ -38,11 +38,12 @@ public class BorrowerController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newBorrower);
     }
 
-    @PutMapping
-    public ResponseEntity<Borrower> updateBorrower(@RequestBody Borrower borrower) {
-        Borrower updatedBorrower = borrowerService.updateBorrower(borrower);
+    @PutMapping("/updateBorrower/{id}")
+    public ResponseEntity<String> updateBorrower(@RequestBody Borrower borrower, @PathVariable int id) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(updatedBorrower);
+        borrowerService.updateBorrower(borrower, id);
+
+        return ResponseEntity.ok("Borrower successfully updated");
     }
 
     @DeleteMapping("deleteBorrower/{id}")
