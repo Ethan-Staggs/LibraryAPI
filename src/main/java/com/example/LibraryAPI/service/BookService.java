@@ -1,12 +1,13 @@
 package com.example.LibraryAPI.service;
 
-import com.example.LibraryAPI.dto.BookDto;
+import com.example.LibraryAPI.ApiService;
 import com.example.LibraryAPI.model.Author;
 import com.example.LibraryAPI.model.Book;
 import com.example.LibraryAPI.repository.AuthorRepository;
 import com.example.LibraryAPI.repository.BookRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -15,33 +16,39 @@ public class BookService {
 
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
+    private final ApiService apiService;
 
-    public BookService(BookRepository bookRepository, AuthorRepository authorRepository) {
+    public BookService(BookRepository bookRepository, AuthorRepository authorRepository, ApiService apiService) {
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
+        this.apiService = apiService;
     }
 
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
 
-    public Book getBookById(Long id) {
+    public Mono<String> getBookByTitle(String title) {
+        return apiService.getBookByTitle(title);
+    }
+
+    public Book getBookById(int id) {
         return bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + id));
     }
 
-    public Book addBook(BookDto dto) {
-        Author author = authorRepository.findById(dto.getAuthorId())
+    public Book addBook(Book book) {
+        Author author = authorRepository.findById(book.getAuthor().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Author not found"));
 
-        Book book = new Book();
-        book.setTitle(dto.getTitle());
-        book.setIsbn(dto.getIsbn());
-        book.setTotalCopies(dto.getTotalCopies());
-        book.setAvailableCopies(dto.getAvailableCopies());
-        book.setAuthor(author);
+        Book newBook = new Book();
+        newBook.setTitle(book.getTitle());
+        newBook.setIsbn(book.getIsbn());
+        newBook.setTotalCopies(book.getTotalCopies());
+        newBook.setAvailableCopies(book.getAvailableCopies());
+        newBook.setAuthor(author);
 
-        return bookRepository.save(book);
+        return bookRepository.save(newBook);
     }
 
     public Book updateBook(Book book) {
@@ -54,7 +61,7 @@ public class BookService {
         return bookRepository.save(updatedBook);
     }
 
-    public void deleteBook(Long id) {
+    public void deleteBook(int id) {
         if (!bookRepository.existsById(id)) {
             throw new EntityNotFoundException("Book not found with id: " + id);
         }
