@@ -29,16 +29,5 @@ public class AuthorController {
         return authorService.getAuthorById(id);
     }
 
-    @PostMapping("/addBook")
-    public ResponseEntity<Author> addAuthor(@RequestBody Author author) {
-        Author newAuthor = authorService.addAuthor(author);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(newAuthor);
-    }
-
-    @DeleteMapping("/deleteAuthor/{id}")
-    public void deleteAuthor(@PathVariable int id) {
-        authorService.deleteAuthor(id);
-    }
 
 }
