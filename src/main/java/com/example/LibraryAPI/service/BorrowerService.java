@@ -1,8 +1,5 @@
 package com.example.LibraryAPI.service;
 
-import com.example.LibraryAPI.dto.BookDto;
-import com.example.LibraryAPI.dto.BorrowerDto;
-import com.example.LibraryAPI.model.Author;
 import com.example.LibraryAPI.model.Book;
 import com.example.LibraryAPI.model.Borrower;
 import com.example.LibraryAPI.model.Loan;
@@ -11,11 +8,10 @@ import com.example.LibraryAPI.repository.BorrowerRepository;
 import com.example.LibraryAPI.repository.LoanRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -51,8 +47,9 @@ public class BorrowerService {
         return borrowerRepository.save(newBorrower);
     }
 
-    public Borrower updateBorrower(Borrower borrower) {
-        Borrower updatedBorrower = getBorrowerById(borrower.getId()); 
+    @PutMapping("/updateBorrower/{id}")
+    public Borrower updateBorrower(Borrower borrower, int id) {
+        Borrower updatedBorrower = getBorrowerById(id);
 
         updatedBorrower.setName(borrower.getName());
         updatedBorrower.setEmail(borrower.getEmail());
@@ -75,19 +72,23 @@ public class BorrowerService {
         loan.setBorrower(borrower);
         loan.setBook(loanedBook);
         loan.setDueDate(LocalDate.now().plusDays(15));
+        loan.setLoanDate(LocalDate.now());
         loan.setReturned(false);
         borrower.addLoan(loan);
 
         loanRepository.save(loan);
     }
 
-    public void returnBook(int borrowerId, int bookId, int loanId) {
-        Borrower borrower = borrowerRepository.getById(borrowerId);
+    //
+    public void returnBook(int borrowerId, int loanId, int bookId) {
+        Borrower borrower = borrowerRepository.getReferenceById(borrowerId);
         Loan loan = loanRepository.getReferenceById(loanId);
+        System.out.println(loan.getId());
         Book book = bookRepository.getReferenceById(bookId);
 
 
         borrower.removeLoan(loan);
+        loanRepository.delete(loan);
         loan.setReturned(true);
 
 
