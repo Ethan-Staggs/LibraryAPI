@@ -1,6 +1,5 @@
 package com.example.LibraryAPI.controller;
 
-import com.example.LibraryAPI.dto.BookDto;
 import com.example.LibraryAPI.model.Book;
 import com.example.LibraryAPI.service.BookService;
 import org.springframework.http.HttpStatus;
